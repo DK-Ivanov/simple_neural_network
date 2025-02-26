@@ -1,0 +1,30 @@
+neural-network:
+  service:
+    repository:
+      epoch-count: 1
+      rewrite-data: true
+  loss:
+    #loss types:
+    #     1 - MSE
+    #     2 - MAE
+    #     (3 - Log loss - не работает)
+    loss-type: 3
+  layers:
+    #activate-func:
+    #     0 - no activate func,
+    #     1 - sigmoid,
+    #     2 - RELU,
+    #     3 - TanH,
+    #     (4 - softmax - еще в разработке)
+    activate-func: 2, 2, 2, 4
+    neurons-count: 512, 256, 128, 10
+    features-count: 784
+  learning-rate: 0.0001
+#  learning-frequency: 20
+#  example-count: 100_000
+spring:
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/training_neural_network
+    username: postgres
+    password: ADministratore225

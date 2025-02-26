@@ -1,0 +1,23 @@
+Create table neuron(id int primary key, bias numeric(9, 7));
+Create table weight(neuron_id int references neuron(id), number_in_neuron int, value numeric(9, 7));
+Drop table weight;
+Drop table neuron;
+
+select id, bias, value
+from neuron n
+join weight w on w.neuron_id = n.id
+
+delete
+from weight;
+
+delete
+from neuron;
+
+select *
+from weight
+
+create table learning_data_training(id serial primary key, data JSONB);
+create table learning_data_check(id serial primary key, data JSONB);
+
+drop table learning_data_training;
+drop table learning_data_check;
