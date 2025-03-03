@@ -1,8 +1,10 @@
 package org.neural_network.simple_neural_network.tools;
 
+import ch.obermuhlner.math.big.BigDecimalMath;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
+import java.math.MathContext;
 import java.util.List;
 
 @Component
@@ -84,8 +86,9 @@ public class MathFunc {
     /**
      * Вычисление потери MSE
      */
-    public static Double MSE(Double predicatedValue, Double label) {
-        return Math.pow(label - predicatedValue, 2);
+    public static BigDecimal MSE(Double predicatedValue, Double label) {
+        return BigDecimalMath.pow(BigDecimal.valueOf(label - predicatedValue), BigDecimal.TWO, MathContext.DECIMAL128);
+        //Math.pow(label - predicatedValue, 2);
     }
 
     /**
@@ -98,8 +101,9 @@ public class MathFunc {
     /**
      * Вычисление потери MAE
      */
-    public static Double MAE(Double predicatedValue, Double label) {
-        return Math.abs(predicatedValue - label);
+    public static BigDecimal MAE(Double predicatedValue, Double label) {
+        return BigDecimal.valueOf(Math.abs(predicatedValue - label));
+//        return Math.abs(predicatedValue - label);
     }
 
     /**
@@ -118,8 +122,9 @@ public class MathFunc {
     /**
      * Вычисление потери Log loss
      */
-    public static Double logLoss(Double predicatedValue, Double label) {
-        return -predicatedValue * Math.log(label + 0.000000001);
+    public static BigDecimal logLoss(Double predicatedValue, Double label) {
+        return BigDecimal.valueOf(predicatedValue).negate().multiply(BigDecimalMath.log(BigDecimal.valueOf(label + 0.0000001), MathContext.DECIMAL128));
+//        return -predicatedValue * Math.log(label + 0.000000001);
     }
 
     /**

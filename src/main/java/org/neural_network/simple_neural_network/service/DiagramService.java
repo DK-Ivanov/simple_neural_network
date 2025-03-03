@@ -20,14 +20,14 @@ public class DiagramService {
     private SwingWrapper<XYChart> sw;
     private XYChart chart;
 
-    private List<Double> losses = new ArrayList<>();
+    private List<BigDecimal> losses = new ArrayList<>();
     private List<Double> iterations = new ArrayList<>();
     private Double iteration = 0d;
 
-    public void printLossCurve(Double loss) {
+    public void printLossCurve(BigDecimal loss) {
         iteration++;
         iterations.add(iteration);
-        losses.add(round(loss));
+        losses.add(loss);
         repaint();
         try {
             Thread.sleep(1);
@@ -52,16 +52,16 @@ public class DiagramService {
         sw.repaintChart();
     }
 
-    private Double round(Double loss) {
-        try {
-            BigDecimal rounder = new BigDecimal(loss);
-            rounder = rounder.setScale(10, RoundingMode.HALF_UP);
-            return rounder.doubleValue();
-        } catch (Exception e) {
-            log.warn("Нестандартная ошибка: loss = {}", loss);
-            return 0d;
-        }
-    }
+//    private Double round(Double loss) {
+//        try {
+//            BigDecimal rounder = new BigDecimal(loss);
+//            rounder = rounder.setScale(10, RoundingMode.HALF_UP);
+//            return rounder.doubleValue();
+//        } catch (Exception e) {
+//            log.warn("Нестандартная ошибка: loss = {}", loss);
+//            return 0d;
+//        }
+//    }
 
 
 }

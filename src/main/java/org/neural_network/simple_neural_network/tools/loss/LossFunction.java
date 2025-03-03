@@ -1,6 +1,8 @@
 package org.neural_network.simple_neural_network.tools.loss;
 
+import java.math.BigDecimal;
+
 @FunctionalInterface
 public interface LossFunction {
-    Double calcLoss(Double label, Double predicationValue);
+    BigDecimal calcLoss(Double label, Double predicationValue);
 }

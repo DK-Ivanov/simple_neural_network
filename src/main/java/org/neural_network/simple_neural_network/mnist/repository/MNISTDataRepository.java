@@ -6,6 +6,7 @@ import org.neural_network.simple_neural_network.mnist.entity.MnistDataReader;
 import org.neural_network.simple_neural_network.mnist.entity.MnistMatrix;
 import org.neural_network.simple_neural_network.repository.learning_data_reposes.CheckLearningDataRepository;
 import org.neural_network.simple_neural_network.repository.learning_data_reposes.LearningDataRepository;
+import org.neural_network.simple_neural_network.repository.learning_data_reposes.LearningDataRepositoryTest;
 import org.neural_network.simple_neural_network.repository.learning_data_reposes.TrainingLearningDataRepository;
 import org.neural_network.simple_neural_network.tools.entity.LearningData;
 import org.springframework.stereotype.Repository;
@@ -27,6 +28,7 @@ public class MNISTDataRepository {
 
     private final TrainingLearningDataRepository trainingLearningDataRepository;
     private final CheckLearningDataRepository checkLearningDataRepository;
+    private final LearningDataRepositoryTest learningDataRepositoryTest;
 
     public void rewriteTrainingData() {
         rewriteData(FILE_DATA_60K, FILE_LABELS_60K, trainingLearningDataRepository);
@@ -34,6 +36,10 @@ public class MNISTDataRepository {
 
     public void rewriteCheckData() {
         rewriteData(FILE_DATA_10K, FILE_LABELS_10K, checkLearningDataRepository);
+    }
+
+    public void rewriteDataForTest() {
+        rewriteData(FILE_DATA_60K, FILE_LABELS_60K, learningDataRepositoryTest);
     }
 
     private void rewriteData(String fileData, String fileLabels, LearningDataRepository learningDataRepository) {

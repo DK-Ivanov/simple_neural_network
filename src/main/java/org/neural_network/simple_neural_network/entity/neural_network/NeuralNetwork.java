@@ -10,6 +10,7 @@ import org.neural_network.simple_neural_network.entity.NeuronLayer;
 import org.neural_network.simple_neural_network.tools.loss.LossType;
 import org.springframework.stereotype.Component;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -35,7 +36,7 @@ public abstract class NeuralNetwork {
     /**
      * Алгоритм единичной тренировки
      */
-    public Double singleLearningSession(List<Double> featuresVector, List<Double> predicatedValues) {
+    public BigDecimal singleLearningSession(List<Double> featuresVector, List<Double> predicatedValues) {
         List<Double> labels = doPrediction(featuresVector);
         calculateOutputLayerLossDerivative(labels, predicatedValues);
         this.layers.stream().sorted(Comparator.reverseOrder()).skip(1).forEach(NeuronLayer::calcLossDerivativeByOutput);
@@ -46,8 +47,8 @@ public abstract class NeuralNetwork {
         this.layers = layers.stream().sorted().toList();
         return predicatedValues.stream()
                 .map(predicatedValue -> lossType.getLossFunction().calcLoss(labels.get(predicatedValues.indexOf(predicatedValue)), predicatedValue))
-                .reduce(Double::sum)
-                .orElseThrow() / predicatedValues.size();
+                .reduce(BigDecimal::add)
+                .orElseThrow().divide(BigDecimal.valueOf(predicatedValues.size()));
     }
 
     protected abstract void calculateOutputLayerLossDerivative(List<Double> labels,

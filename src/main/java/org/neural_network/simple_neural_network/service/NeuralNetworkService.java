@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.neural_network.simple_neural_network.entity.neural_network.NeuralNetwork;
 import org.neural_network.simple_neural_network.repository.learning_data_reposes.CheckLearningDataRepository;
+import org.neural_network.simple_neural_network.repository.learning_data_reposes.LearningDataRepositoryTest;
 import org.neural_network.simple_neural_network.repository.learning_data_reposes.TrainingLearningDataRepository;
 import org.neural_network.simple_neural_network.repository.NeuralNetworkRepository;
 import org.neural_network.simple_neural_network.tools.entity.LearningData;
@@ -24,6 +25,7 @@ public class NeuralNetworkService {
 
     private final NeuralNetworkRepository neuralNetworkRepository;
     private final CheckLearningDataRepository checkLearningDataRepository;
+//    private final LearningDataRepositoryTest trainingLearningDataRepository;
     private final TrainingLearningDataRepository trainingLearningDataRepository;
     private final NeuralNetwork neuralNetwork;
     private final LossService lossService;

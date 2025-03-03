@@ -45,13 +45,17 @@
 			<artifactId>read-mnist</artifactId>
 			<version>2.1</version>
 		</dependency>
-		<!-- https://mavenlibs.com/maven/dependency/com.fasterxml.jackson.dataformat/jackson-dataformat-xml -->
 		<dependency>
-			<groupId>com.fasterxml.jackson.dataformat</groupId>
-			<artifactId>jackson-dataformat-xml</artifactId>
-			<version>2.15.2</version>
+			<groupId>ch.obermuhlner</groupId>
+			<artifactId>big-math</artifactId>
+			<version>2.3.0</version>
 		</dependency>
-
+		<!-- https://mvnrepository.com/artifact/org.jscience/jscience -->
+		<dependency>
+			<groupId>org.jscience</groupId>
+			<artifactId>jscience</artifactId>
+			<version>4.3.1</version>
+		</dependency>
 		<dependency>
 			<groupId>org.postgresql</groupId>
 			<artifactId>postgresql</artifactId>

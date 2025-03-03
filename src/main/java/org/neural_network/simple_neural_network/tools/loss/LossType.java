@@ -15,7 +15,7 @@ public enum LossType {
 
     final int number;
     final LossFunction lossFunction;
-    final LossFunction lossFunctionDerivative;
+    final LossFunctionDerivative lossFunctionDerivative;
 
     public static LossType getByNumber(int number) {
         return Stream.of(LossType.MSE,

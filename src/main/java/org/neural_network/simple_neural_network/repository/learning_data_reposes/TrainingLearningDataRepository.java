@@ -1,8 +1,6 @@
 package org.neural_network.simple_neural_network.repository.learning_data_reposes;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
+
 import lombok.RequiredArgsConstructor;
 import org.neural_network.simple_neural_network.tools.entity.LearningData;
 import org.springframework.jdbc.core.JdbcTemplate;

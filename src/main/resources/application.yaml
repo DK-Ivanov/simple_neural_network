@@ -1,7 +1,7 @@
 neural-network:
   service:
     repository:
-      epoch-count: 1
+      epoch-count: 100
       rewrite-data: true
   loss:
     #loss types:
