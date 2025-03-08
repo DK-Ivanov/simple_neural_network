@@ -71,13 +71,14 @@ public class NeuralNetworkService {
                 } else {
                     neuralNetworkRepository.update(neuralNetwork);
                 }
+                log.info("Эпоха № {}", epochNumber);
             }
-            log.info("Время сессии: {} секунд", (System.nanoTime() - startSessionTime)/ 1000_000_000d);
+            log.info("Время сессии: {} секунд", (System.nanoTime() - startSessionTime)/ 1_000_000_000d);
             startSessionTime = System.nanoTime();
         }
         long after = System.currentTimeMillis();
-        log.info("Время обучения модели: {} секунд", (Double.valueOf(after - before)/1000));
-        for (int i = 0; i < 10_000; i++) {
+        log.info("Время обучения модели: {} секунд", (Double.valueOf(after - before)/1_000));
+        for (int i = 60_000; i < 70_000; i++) {
             LearningData learningData = checkLearningDataRepository.getById(i);
             log.info(
                     "Example {}: \nExpected answer: {}\n Neural network answer: {}",

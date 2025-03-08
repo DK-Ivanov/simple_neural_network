@@ -2,12 +2,12 @@ neural-network:
   service:
     repository:
       epoch-count: 100
-      rewrite-data: true
+      rewrite-data: false
   loss:
     #loss types:
     #     1 - MSE
     #     2 - MAE
-    #     (3 - Log loss - не работает)
+    #     3 - Log loss
     loss-type: 3
   layers:
     #activate-func:
@@ -15,11 +15,11 @@ neural-network:
     #     1 - sigmoid,
     #     2 - RELU,
     #     3 - TanH,
-    #     (4 - softmax - еще в разработке)
+    #     4 - softmax
     activate-func: 2, 2, 2, 4
     neurons-count: 512, 256, 128, 10
     features-count: 784
-  learning-rate: 0.0001
+  learning-rate: 0.001
 #  learning-frequency: 20
 #  example-count: 100_000
 spring:

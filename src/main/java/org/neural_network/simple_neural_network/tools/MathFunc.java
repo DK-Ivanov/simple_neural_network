@@ -1,12 +1,14 @@
 package org.neural_network.simple_neural_network.tools;
 
 import ch.obermuhlner.math.big.BigDecimalMath;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
 import java.math.MathContext;
 import java.util.List;
 
+@Slf4j
 @Component
 public class MathFunc {
 
@@ -30,7 +32,7 @@ public class MathFunc {
      * Функция активации RELU
      */
     public static Double RELU(Double z) {
-        return Math.max(0.0001*z, z);
+        return Math.max(0, z);
     }
 
     /**
@@ -65,7 +67,10 @@ public class MathFunc {
      */
     public static Double softmax(Double z, List<Double> otherNeuronsZ, Double maxZ) {
         Double otherExps = otherNeuronsZ.stream().map(otherZ -> Math.exp(otherZ - maxZ)).reduce(Double::sum).orElseThrow();
-        return new BigDecimal(Math.exp(z - maxZ) / otherExps).doubleValue();
+        Double softmax = Math.exp(z - maxZ) / otherExps;
+        if (softmax.isNaN() || softmax.isInfinite())
+            log.error("\nz: {}; \notherNeuronsZ: {}; \nmaxZ: {}; \notherExps: {}; \nsoftmax: {}", z, otherNeuronsZ, maxZ, otherExps, softmax);
+        return new BigDecimal(softmax).doubleValue();
     }
 
     /**
@@ -122,9 +127,29 @@ public class MathFunc {
     /**
      * Вычисление потери Log loss
      */
-    public static BigDecimal logLoss(Double predicatedValue, Double label) {
-        return BigDecimal.valueOf(predicatedValue).negate().multiply(BigDecimalMath.log(BigDecimal.valueOf(label + 0.0000001), MathContext.DECIMAL128));
-//        return -predicatedValue * Math.log(label + 0.000000001);
+    public static BigDecimal logLoss(Double label, Double predicatedValue) {
+        try {
+            BigDecimal log10 = BigDecimalMath.log(BigDecimal.valueOf(label), MathContext.DECIMAL128);
+            BigDecimal logLoss = BigDecimal.valueOf(predicatedValue).negate()
+                    .multiply(log10);
+            return logLoss;
+        } catch (Exception e) {
+            log.info("\npredicatedValue: {}; \nlabel: {}; \nlog10: {}; \nlogLoss: {};", predicatedValue, label, Math.log(label), -(Math.log(label) * predicatedValue));
+            throw new RuntimeException(e);
+        }
+
+//        return -predicatedValue * Math.log10(label + 0.000000001);
+    }
+
+    public static BigDecimal softmaxLogLoss(Double predicatedValue, Double label) {
+        BigDecimal labelBD = BigDecimal.valueOf(label);
+        BigDecimal predicatedValueBD = BigDecimal.valueOf(predicatedValue);
+        log.info("\npredicatedValue: {}; \nlabel: {};",  predicatedValue, label);
+        BigDecimal firstLog = predicatedValueBD.multiply(BigDecimalMath.log(labelBD, MathContext.DECIMAL64));
+        BigDecimal secondLog = BigDecimal.ONE.subtract(predicatedValueBD).multiply(BigDecimalMath.log(BigDecimal.ONE.subtract(labelBD), MathContext.DECIMAL64));
+        log.info("\nfirstLog: {}; \nsecondLog: {};", firstLog, secondLog);
+        return firstLog.add(secondLog);
+
     }
 
     /**

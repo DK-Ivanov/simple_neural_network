@@ -17,6 +17,13 @@ public class Weight implements Comparable<Weight> {
     }
 
     @Override
+    public String toString() {
+        return "Weight{" +
+                "value=" + value +
+                '}';
+    }
+
+    @Override
     public int compareTo(Weight o) {
         if (o.getNumberInNeuron() > getNumberInNeuron()) {
             return -1;

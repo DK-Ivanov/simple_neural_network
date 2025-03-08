@@ -55,7 +55,7 @@ public class NeuronRepository {
 
     public void clean() {
         String sqlDrop = "Drop table neuron;";
-        String sqlCreate = "Create table neuron(id int primary key, bias numeric(9, 7));";
+        String sqlCreate = "Create table neuron(id int primary key, bias numeric(20, 14));";
         transactionTemplate.executeWithoutResult(transactionStatus -> {
             weightRepository.dropTable();
             jdbcTemplate.execute(sqlDrop);

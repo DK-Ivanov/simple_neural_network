@@ -38,6 +38,7 @@ public abstract class NeuralNetwork {
      */
     public BigDecimal singleLearningSession(List<Double> featuresVector, List<Double> predicatedValues) {
         List<Double> labels = doPrediction(featuresVector);
+        labels = clipping(labels);
         calculateOutputLayerLossDerivative(labels, predicatedValues);
         this.layers.stream().sorted(Comparator.reverseOrder()).skip(1).forEach(NeuronLayer::calcLossDerivativeByOutput);
         this.layers = layers.stream()
@@ -45,14 +46,27 @@ public abstract class NeuralNetwork {
                 .map(this::updateWeightsAndBiasOnOneLayer)
                 .collect(Collectors.toList());
         this.layers = layers.stream().sorted().toList();
-        return predicatedValues.stream()
+//        log.info("\nlabels :{}", labels);
+//        for (int i = 0; i < layers.getLast().getNeurons().size(); i++) {
+//            log.info("Нейрон {}: {}", i, layers.getLast().getNeurons().get(i));
+//        }
+        return calcLoss(featuresVector, predicatedValues, labels);
+    }
+
+    protected BigDecimal calcLoss(List<Double> featuresVector, List<Double> predicatedValues, List<Double> labels) {
+        return (predicatedValues.stream()
                 .map(predicatedValue -> lossType.getLossFunction().calcLoss(labels.get(predicatedValues.indexOf(predicatedValue)), predicatedValue))
                 .reduce(BigDecimal::add)
-                .orElseThrow().divide(BigDecimal.valueOf(predicatedValues.size()));
+                .orElseThrow().divide(BigDecimal.valueOf(predicatedValues.size())));
     }
 
     protected abstract void calculateOutputLayerLossDerivative(List<Double> labels,
                                                     List<Double> expectedLabels);
+
+    private List<Double> clipping(List<Double> labels) {
+        Double e = 0.000000001;
+        return labels.stream().map(label -> Math.max(e, Math.min(1 - e, label))).toList();
+    }
 
     /**
      * Обновление весов и смещения для всех нейронов одного слоя

@@ -7,6 +7,7 @@ import org.neural_network.simple_neural_network.tools.MathFunc;
 import org.neural_network.simple_neural_network.tools.loss.LossType;
 import org.springframework.stereotype.Component;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -39,7 +40,7 @@ public class SoftmaxNeuralNetwork extends NeuralNetwork {
         layer.setLastInputData(featuresVector);
         this.maxZ = otherNeuronZ.stream().max(Double::compare).orElseThrow();
         return layer.getNeurons().parallelStream()
-                .map(neuron -> neuron.getSoftmaxPredication(featuresVector, otherNeuronZ, maxZ))
+                .map(neuron -> neuron.getSoftmaxPredication(otherNeuronZ, maxZ))
                 .collect(Collectors.toList());
     }
 
@@ -47,9 +48,9 @@ public class SoftmaxNeuralNetwork extends NeuralNetwork {
     protected void calculateOutputLayerLossDerivative(List<Double> labels, List<Double> expectedLabels) {
         layers.getLast().setLastLossDerivativeByOutputData(labels.parallelStream()
                 .map(label ->
-                        lossType.equals(LossType.LOG_LOSS) ?
-                                MathFunc.softmaxLogLossDerivative(label, expectedLabels.get(labels.indexOf(label))) :
-                                (lossType.getLossFunctionDerivative().calcLoss(expectedLabels.get(labels.indexOf(label)), label) *
+                        (lossType.equals(LossType.LOG_LOSS) ?
+                                MathFunc.softmaxLogLossDerivative(expectedLabels.get(labels.indexOf(label)), label) :
+                                (lossType.getLossFunctionDerivative().calcLoss(expectedLabels.get(labels.indexOf(label)), label)) *
                                 MathFunc.softmaxDerivative(
                                         layers.getLast()
                                                 .getNeurons()
@@ -62,4 +63,13 @@ public class SoftmaxNeuralNetwork extends NeuralNetwork {
                 )
                 .collect(Collectors.toList()));
     }
+
+//    @Override
+//    protected BigDecimal calcLoss(List<Double> featuresVector, List<Double> predicatedValues, List<Double> labels) {
+//        return predicatedValues.stream()
+//                .map(predicatedValue -> lossType.getLossFunction().calcLoss(labels.get(predicatedValues.indexOf(predicatedValue)), predicatedValue))
+//                .reduce(BigDecimal::add)
+//                .orElseThrow().divide(BigDecimal.valueOf(predicatedValues.size())).negate();
+//    }
+
 }

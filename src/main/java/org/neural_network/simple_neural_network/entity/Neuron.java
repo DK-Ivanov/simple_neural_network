@@ -51,8 +51,8 @@ public class Neuron implements Comparable<Neuron>{
      * Softmax(z)
      * Возвращает предсказание нейрона.
      */
-    public Double getSoftmaxPredication(List<Double> features, List<Double> otherNeuronsZ, Double maxZ) {
-        return MathFunc.softmax(linearRegression(features), otherNeuronsZ, maxZ);
+    public Double getSoftmaxPredication(List<Double> otherNeuronsZ, Double maxZ) {
+        return MathFunc.softmax(this.lastLinearRegression, otherNeuronsZ, maxZ);
     }
 
     /**

@@ -44,7 +44,7 @@ public class WeightRepository {
     }
 
     public void createTable() {
-        String sql = "Create table weight(neuron_id int references neuron(id), number_in_neuron int, value numeric(9, 7)); ";
+        String sql = "Create table weight(neuron_id int references neuron(id), number_in_neuron int, value numeric(20, 14)); ";
         jdbcTemplate.execute(sql);
     }
 

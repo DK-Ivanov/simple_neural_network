@@ -4,6 +4,7 @@ import lombok.NonNull;
 import org.neural_network.simple_neural_network.entity.NeuronLayer;
 import org.neural_network.simple_neural_network.tools.loss.LossType;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -44,4 +45,13 @@ public class SimpleNeuralNetwork extends NeuralNetwork {
                 .collect(Collectors.toList())
         );
     }
+
+    @Override
+    protected BigDecimal calcLoss(List<Double> featuresVector, List<Double> predicatedValues, List<Double> labels) {
+        return predicatedValues.stream()
+                .map(predicatedValue -> lossType.getLossFunction().calcLoss(labels.get(predicatedValues.indexOf(predicatedValue)), predicatedValue))
+                .reduce(BigDecimal::add)
+                .orElseThrow().divide(BigDecimal.valueOf(predicatedValues.size())).negate();
+    }
+
 }
