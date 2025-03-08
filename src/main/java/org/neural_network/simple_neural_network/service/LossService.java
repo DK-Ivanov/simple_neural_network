@@ -19,16 +19,14 @@ public class LossService {
     private final DiagramService diagramService;
     private List<BigDecimal> losses = new ArrayList<>();
 
-    public void calcEpochLoss(LearningData learningData, boolean newEpoch) {
-        if (newEpoch) {
-            diagramService.printLossCurve(losses.stream().reduce(BigDecimal::add).orElseThrow());
-            losses = new ArrayList<>();
-            losses.add(neuralNetwork.singleLearningSession(learningData.getExample(), learningData.getAnswer()));
-            //log.info("Loss: {}", losses.getLast());
-        } else {
+    public void calcExample(LearningData learningData) {
             losses.add(neuralNetwork.singleLearningSession(learningData.getExample(), learningData.getAnswer()));
 //            log.info("Loss: {}", losses.getLast());
-        }
+    }
+
+    public void printLossCurve() {
+        diagramService.printLossCurve(losses.stream().reduce(BigDecimal::add).orElseThrow());
+        losses = new ArrayList<>();
     }
 
 

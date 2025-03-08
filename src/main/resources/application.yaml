@@ -1,5 +1,6 @@
 neural-network:
   service:
+    pack-size: 100
     repository:
       epoch-count: 100
       rewrite-data: false
